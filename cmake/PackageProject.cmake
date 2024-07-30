@@ -155,14 +155,14 @@ function(myproject_package_project)
   unset(_PackageProject_TARGETS)
 
   # download ForwardArguments
-  FetchContent_Declare(
-    _fargs
-    URL https://github.com/polysquare/cmake-forward-arguments/archive/8c50d1f956172edb34e95efa52a2d5cb1f686ed2.zip)
-  FetchContent_GetProperties(_fargs)
-  if(NOT _fargs_POPULATED)
-    FetchContent_Populate(_fargs)
-  endif()
-  include("${_fargs_SOURCE_DIR}/ForwardArguments.cmake")
+  # BUG :this not work when use FetchContent_MakeAvailable instead of FetchContent_Populate
+  # download ForwardArguments
+  # FetchContent_Declare(
+  #   _fargs
+  #   URL https://github.com/polysquare/cmake-forward-arguments/archive/8c50d1f956172edb34e95efa52a2d5cb1f686ed2.zip)
+  # FetchContent_Populate(_fargs)
+  #
+  include("cmake/ForwardArguments.cmake")
 
   # prepare the forward arguments for ycm
   set(_FARGS_LIST)
@@ -177,14 +177,13 @@ function(myproject_package_project)
     "${_multiValueArgs};DEPENDENCIES;PRIVATE_DEPENDENCIES")
 
   # download ycm
-  FetchContent_Declare(_ycm URL https://github.com/robotology/ycm/archive/refs/tags/v0.13.0.zip)
-  FetchContent_GetProperties(_ycm)
-  if(NOT _ycm_POPULATED)
-    FetchContent_Populate(_ycm)
-  endif()
-  include("${_ycm_SOURCE_DIR}/modules/InstallBasicPackageFiles.cmake")
+  FetchContent_Declare(
+    _ycm
+    URL https://github.com/robotology/ycm-cmake-modules/releases/download/v0.16.5/ycm-cmake-modules-0.16.5-all.tar.gz)
+  FetchContent_MakeAvailable(_ycm)
+  include("${_ycm_SOURCE_DIR}/share/YCM/modules/InstallBasicPackageFiles.cmake")
 
   install_basic_package_files(${_PackageProject_NAME} "${_FARGS_LIST}")
 
-  include("${_ycm_SOURCE_DIR}/modules/AddUninstallTarget.cmake")
+  include("${_ycm_SOURCE_DIR}/share/YCM/modules/AddUninstallTarget.cmake")
 endfunction()

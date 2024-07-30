@@ -22,6 +22,10 @@ CMakeUserPresets.json
 _ReSharper*
 *.log
 
+# clangd
+.cache
+compile_commands.json
+
 # OS Generated Files
 .DS_Store
 .AppleDouble
