@@ -97,14 +97,18 @@ function(myproject_setup_dependencies)
   endif()
 
   # for big packages,we can use the following way to add them
-  if(NOT TARGET Boost::Boost)
+  if(NOT TARGET boost::boost)
     cpmaddpackage(
       NAME
-      Boost
+      boost
       VERSION
       1.85.0
       URL
-      https://github.com/boostorg/boost/releases/download/boost-1.85.0/boost-1.85.0-cmake.tar.xz)
+      https://github.com/boostorg/boost/releases/download/boost-1.85.0/boost-1.85.0-cmake.tar.xz
+      OPTIONS
+      "BOOST_USE_STATIC_LIBS OFF"
+      "BOOST_USE_MULTITHREADED ON")
+
   endif()
 
   if(NOT TARGET dbg_macro::dbg_macro)
@@ -118,4 +122,16 @@ function(myproject_setup_dependencies)
       GIT_TAG
       v0.5.1)
   endif()
+  if(NOT TARGET jsoncpp::jsoncpp)
+    cpmaddpackage(
+      NAME
+      jsoncpp
+      GIT_SHALLOW
+      ON
+      GITHUB_REPOSITORY
+      open-source-parsers/jsoncpp
+      GIT_TAG
+      1.9.5)
+  endif()
+
 endfunction()
