@@ -128,8 +128,7 @@ jobs:
 
       - name: Configure Conan
         run: |
-          conan profile --detect
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect
 
       - name: Check for llvm version mismatches
         if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
