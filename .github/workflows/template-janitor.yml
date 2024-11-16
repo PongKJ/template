@@ -16,9 +16,7 @@ permissions:
 env:
   TEMPLATES_PATH: ".github/template"
 
-
 jobs:
-
   template-cleanup:
     name: Cleanup after create
     runs-on: ubuntu-latest
@@ -44,7 +42,7 @@ jobs:
           developer_mode: ${{ matrix.developer_mode }}
           generator: ${{ matrix.generator }}
 
-      - name: Get organization and project name 
+      - name: Get organization and project name
         run: |
           echo "NEW_ORG=${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "NEW_PROJECT=${{ github.event.repository.name }}" >> $GITHUB_ENV
@@ -69,7 +67,7 @@ jobs:
         run: |
           # hyphens and dots in c++ identifiers are forbidden. Use underscores instead.
           NEW_SAFE_PROJECT=$(echo ${{ env.NEW_PROJECT }} | sed "s/-/_/g" | sed "s/\./_/g" )
-          echo "NEW_SAFE_PROJECT=$NEW_SAFE_PROJECT" >> $GITHUB_ENV 
+          echo "NEW_SAFE_PROJECT=$NEW_SAFE_PROJECT" >> $GITHUB_ENV
 
       # Rename all cpp_starter_project occurences to current repository and remove this workflow
       - name: Insert new org and project
@@ -140,9 +138,7 @@ jobs:
       - name: Project Name
         uses: cardinalby/export-env-action@v2
         with:
-          envFile: '.github/constants.env'
-
-
+          envFile: ".github/constants.env"
 
       - name: Test simple configuration to make sure nothing broke
         run: |
@@ -157,12 +153,10 @@ jobs:
           add: -A
           author_name: Template Janitor
           author_email: template.janitor@example.com
-          message: 'Cleanup template and initialize repository'
+          message: "Cleanup template and initialize repository"
           pathspec_error_handling: exitImmediately
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
 
   template-rename:
     name: Renames template when a new name is detected
@@ -189,7 +183,7 @@ jobs:
           developer_mode: ${{ matrix.developer_mode }}
           generator: ${{ matrix.generator }}
 
-      - name: Get organization and project name 
+      - name: Get organization and project name
         run: |
           echo "TEST_RUN=false" >> $GITHUB_ENV
           echo "NEW_ORG=${{ github.repository_owner }}" >> $GITHUB_ENV
@@ -215,7 +209,6 @@ jobs:
           echo "NEW_PROJECT=TEST_PROJECT" >> $GITHUB_ENV
           echo "NEW_REPOSITORY=TEST_REPOSITORY" >> $GITHUB_ENV
 
-
       # Rename all cpp_starter_project occurrences to current repository and remove this workflow
       - name: Update repository to match new template information
         run: |
@@ -226,6 +219,20 @@ jobs:
       - name: Print diff after template name replacement
         run: |
           git diff
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Install Conan
+        run: |
+          python -m pip install --upgrade pip
+          pip install conan
+
+      - name: Configure Conan
+        run: |
+          conan profile detect
 
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
@@ -243,7 +250,6 @@ jobs:
           gcovr: false
           opencppcoverage: false
 
-
       - name: Test simple configuration to make sure nothing broke (default compiler,cmake,developer_mode OFF)
         run: |
           cmake -S . -B ./build -G "${{ matrix.generator }}" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -D${{ env.PROJECT_NAME }}_PACKAGING_MAINTAINER_MODE:BOOL=ON
@@ -255,7 +261,7 @@ jobs:
           add: -A
           author_name: Template Janitor
           author_email: template.janitor@example.com
-          message: 'Change Template Name'
+          message: "Change Template Name"
           pathspec_error_handling: exitImmediately
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
