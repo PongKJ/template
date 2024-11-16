@@ -1,10 +1,10 @@
-# cmake_template
+# c_cpp_template_with_conan
 
-[![ci](https://github.com/cpp-best-practices/cmake_template/actions/workflows/ci.yml/badge.svg)](https://github.com/cpp-best-practices/cmake_template/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/cpp-best-practices/cmake_template/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cmake_template)
-[![CodeQL](https://github.com/cpp-best-practices/cmake_template/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cpp-best-practices/cmake_template/actions/workflows/codeql-analysis.yml)
+[![ci](https://github.com/CWndpkj/c_cpp_template_with_conan/actions/workflows/ci.yml/badge.svg)](https://github.com/CWndpkj/c_cpp_template_with_conan/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/CWndpkj/c_cpp_template_with_conan/branch/main/graph/badge.svg)](https://codecov.io/gh/CWndpkj/c_cpp_template_with_conan)
+[![CodeQL](https://github.com/CWndpkj/c_cpp_template_with_conan/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/CWndpkj/c_cpp_template_with_conan/actions/workflows/codeql-analysis.yml)
 
-## About cmake_template
+## About c_cpp_template_with_conan
 
 This is a C++ Best Practices GitHub template for getting up and running with C++ quickly.
 
@@ -34,7 +34,7 @@ This project gets you started with a simple example of using FTXUI, which happen
 
 ### Use the GitHub template
 First, click the green `Use this template` button near the top of this page.
-This will take you to GitHub's ['Generate Repository'](https://github.com/cpp-best-practices/cmake_template/generate)
+This will take you to GitHub's ['Generate Repository'](https://github.com/CWndpkj/c_cpp_template_with_conan/generate)
 page.
 Fill in a repository name and short description, and click 'Create repository from template'.
 This will allow you to create a new repository in your GitHub account,
