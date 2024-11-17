@@ -1,6 +1,7 @@
 # This workflow should cleanup everything unneeded from the template project
 
 name: Template Janitor
+
 on:
   pull_request:
   release:
@@ -47,7 +48,7 @@ jobs:
           echo "NEW_PROJECT=${{ github.event.repository.name }}" >> $GITHUB_ENV
           echo "NEW_URL=${{ github.repositoryUrl }}" >> $GITHUB_ENV
 
-      - uses: octokit/request-action@v3
+      - uses: octokit/request-action@v2.x
         id: get_repo_meta
         with:
           route: GET /repos/{owner}/{repo}
@@ -105,7 +106,7 @@ jobs:
           rm .github/workflows/template-janitor.yml
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: "3.x"
 
@@ -119,7 +120,7 @@ jobs:
           conan profile detect
 
       - name: Setup Cpp
-        uses: aminya/setup-cpp@v2
+        uses: aminya/setup-cpp@v1
         with:
           compiler: ${{ matrix.compiler }}
 
@@ -191,7 +192,7 @@ jobs:
           echo "TEMPLATE_NAME=`cat ${{ env.TEMPLATES_PATH }}/template_name`" >> $GITHUB_ENV
           echo "TEMPLATE_REPOSITORY=`cat ${{ env.TEMPLATES_PATH }}/template_repository`" >> $GITHUB_ENV
 
-      - uses: octokit/request-action@v3
+      - uses: octokit/request-action@v2.x
         id: get_repo_meta
         with:
           route: GET /repos/{owner}/{repo}
@@ -220,7 +221,7 @@ jobs:
           git diff
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: "3.x"
 
@@ -234,7 +235,7 @@ jobs:
           conan profile detect
 
       - name: Setup Cpp
-        uses: aminya/setup-cpp@v2
+        uses: aminya/setup-cpp@v1
         with:
           compiler: gcc
 
