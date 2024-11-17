@@ -33,7 +33,7 @@ jobs:
           - windows-2022
         compiler:
           # you can specify the version after `-` like "llvm-15.0.2".
-          - llvm-17.0.2
+          - llvm-15.0.2
           - gcc-13
         generator:
           - "Ninja Multi-Config"
