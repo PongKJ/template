@@ -116,7 +116,6 @@ jobs:
             build_shared: On
 
     steps:
-
       - name: Check for llvm version mismatches
         if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
         uses: actions/github-script@v3
@@ -208,8 +207,9 @@ jobs:
             build/*-*${{ matrix.build_type }}*-*.*
 
       - name: Publish to codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           flags: ${{ runner.os }}
           name: ${{ runner.os }}-coverage
           files: ./build/coverage.xml
+          verbose: true # optional (default = false)
