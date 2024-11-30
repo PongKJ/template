@@ -29,8 +29,8 @@ jobs:
       matrix:
         os:
           - ubuntu-24.04
-          - macos-14
-          - windows-2025
+          - macos-15
+          - windows-2022
         compiler:
           # you can specify the version after `-` like "llvm-15.0.2".
           - llvm-17.0.3
@@ -62,7 +62,7 @@ jobs:
             enable_ipo: Off
             gcov_executable: "llvm-cov gcov"
 
-          - os: macos-14
+          - os: macos-15
             enable_ipo: Off
 
           # Set up preferred package generators, for given build configurations
@@ -80,34 +80,34 @@ jobs:
             enable_ipo: Off
 
           # Windows msvc builds
-          - os: windows-2025
+          - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Debug
             packaging_maintainer_mode: On
             enable_ipo: On
 
-          - os: windows-2025
+          - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Release
             packaging_maintainer_mode: On
             enable_ipo: On
 
-          - os: windows-2025
+          - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Debug
             packaging_maintainer_mode: Off
 
-          - os: windows-2025
+          - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Release
             packaging_maintainer_mode: Off
             package_generator: ZIP
 
-          - os: windows-2025
+          - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Release
