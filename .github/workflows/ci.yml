@@ -29,8 +29,6 @@ jobs:
       matrix:
         os:
           - ubuntu-24.04
-          - macos-14
-          - macos-13
           - windows-2022
         compiler:
           # you can specify the version after `-` like "llvm-15.0.2".
@@ -62,12 +60,6 @@ jobs:
           - compiler: llvm-18
             enable_ipo: Off
             gcov_executable: "llvm-cov gcov"
-
-          - os: macos-13
-            enable_ipo: Off
-
-          - os: macos-14
-            enable_ipo: Off
 
           # Set up preferred package generators, for given build configurations
           - build_type: Release

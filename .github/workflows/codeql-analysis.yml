@@ -23,7 +23,7 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       actions: read
       contents: read
@@ -61,20 +61,6 @@ jobs:
         with:
           envFile: ".github/constants.env"
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.x"
-
-      - name: Install Conan
-        run: |
-          python -m pip install --upgrade pip
-          pip install conan
-
-      - name: Configure Conan
-        run: |
-          conan profile detect
-
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
         with:
@@ -86,10 +72,9 @@ jobs:
           vcpkg: false
           ccache: true
           clangtidy: false
-
           cppcheck: false
-
           gcovr: false
+          conan: true
           opencppcoverage: false
 
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
