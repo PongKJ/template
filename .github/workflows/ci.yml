@@ -10,7 +10,7 @@ on:
       - develop
 
 env:
-  CLANG_TIDY_VERSION: "18.1.8"
+  CLANG_TIDY_VERSION: "17.0.3"
   VERBOSE: 1
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
           - windows-2025
         compiler:
           # you can specify the version after `-` like "llvm-15.0.2".
-          - llvm-18.1.8
+          - llvm-17.0.3
           - gcc-13
         generator:
           - "Ninja Multi-Config"
@@ -58,7 +58,7 @@ jobs:
             gcov_executable: gcov
             enable_ipo: On
 
-          - compiler: llvm-18.1.8
+          - compiler: llvm-17.0.3
             enable_ipo: Off
             gcov_executable: "llvm-cov gcov"
 
