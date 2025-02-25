@@ -153,7 +153,6 @@ jobs:
 
       - name: Conifigure Conan
         run: |
-          echo $RUNNER_HOME 
           conan profile detect
           echo "tools.system.package_manager:mode=install
           tools.system.package_manager:sudo=True
