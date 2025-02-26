@@ -27,7 +27,6 @@ macro(myproject_setup_options)
     ON
     myproject_ENABLE_HARDENING
     OFF)
-
   myproject_supports_sanitizers()
 
   if(NOT PROJECT_IS_TOP_LEVEL OR myproject_PACKAGING_MAINTAINER_MODE)

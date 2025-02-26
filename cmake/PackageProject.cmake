@@ -34,8 +34,12 @@ function(myproject_package_project)
       # PRIVATE dependencies that are only included when BUILD_SHARED_LIBS is OFF
       PRIVATE_DEPENDENCIES)
 
-  cmake_parse_arguments(_PackageProject "${_options}" "${_oneValueArgs}" "${_multiValueArgs}"
-                        "${ARGN}")
+  cmake_parse_arguments(
+    _PackageProject
+    "${_options}"
+    "${_oneValueArgs}"
+    "${_multiValueArgs}"
+    "${ARGN}")
 
   # Set default options
   include(GNUInstallDirs) # Define GNU standard installation directories such as
@@ -44,8 +48,7 @@ function(myproject_package_project)
   # set default packaged targets
   if(NOT _PackageProject_TARGETS)
     get_all_installable_targets(_PackageProject_TARGETS)
-    message(
-      STATUS "package_project: considering ${_PackageProject_TARGETS} as the exported targets")
+    message(STATUS "package_project: considering ${_PackageProject_TARGETS} as the exported targets")
   endif()
 
   # default to the name of the project or the given name
@@ -75,14 +78,16 @@ function(myproject_package_project)
 
   # use datadir (works better with vcpkg, etc)
   if("${_PackageProject_CONFIG_INSTALL_DESTINATION}" STREQUAL "")
-    set(_PackageProject_CONFIG_INSTALL_DESTINATION
-        "${CMAKE_INSTALL_DATADIR}/${_PackageProject_NAME}")
+    set(_PackageProject_CONFIG_INSTALL_DESTINATION "${CMAKE_INSTALL_DATADIR}/${_PackageProject_NAME}")
   endif()
   # ycm args
   set(_PackageProject_INSTALL_DESTINATION "${_PackageProject_CONFIG_INSTALL_DESTINATION}")
 
   # Installation of the public/interface includes
-  if(NOT "${_PackageProject_PUBLIC_INCLUDES}" STREQUAL "")
+  if(NOT
+     "${_PackageProject_PUBLIC_INCLUDES}"
+     STREQUAL
+     "")
     foreach(_INC ${_PackageProject_PUBLIC_INCLUDES})
       # make include absolute
       if(NOT IS_ABSOLUTE ${_INC})
@@ -101,7 +106,10 @@ function(myproject_package_project)
   endif()
 
   # Append the configured public dependencies
-  if(NOT "${_PackageProject_PUBLIC_DEPENDENCIES_CONFIGURED}" STREQUAL "")
+  if(NOT
+     "${_PackageProject_PUBLIC_DEPENDENCIES_CONFIGURED}"
+     STREQUAL
+     "")
     set(_PUBLIC_DEPENDENCIES_CONFIG)
     foreach(DEP ${_PackageProject_PUBLIC_DEPENDENCIES_CONFIGURED})
       list(APPEND _PUBLIC_DEPENDENCIES_CONFIG "${DEP} CONFIG")
@@ -112,7 +120,10 @@ function(myproject_package_project)
   set(_PackageProject_DEPENDENCIES ${_PackageProject_PUBLIC_DEPENDENCIES})
 
   # Append the configured private dependencies
-  if(NOT "${_PackageProject_PRIVATE_DEPENDENCIES_CONFIGURED}" STREQUAL "")
+  if(NOT
+     "${_PackageProject_PRIVATE_DEPENDENCIES_CONFIGURED}"
+     STREQUAL
+     "")
     set(_PRIVATE_DEPENDENCIES_CONFIG)
     foreach(DEP ${_PackageProject_PRIVATE_DEPENDENCIES_CONFIGURED})
       list(APPEND _PRIVATE_DEPENDENCIES_CONFIG "${DEP} CONFIG")
@@ -130,11 +141,36 @@ function(myproject_package_project)
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT bin
     PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${_PackageProject_NAME}" COMPONENT dev)
 
-  # install the usage file
+  include("${CMAKE_BINARY_DIR}/conan/build/${CMAKE_BUILD_TYPE}/generators/conan_toolchain.cmake")
+
+  install(
+    IMPORTED_RUNTIME_ARTIFACTS
+    ${_PackageProject_TARGETS}
+    RUNTIME_DEPENDENCY_SET
+    runtime_dependency_set
+    RUNTIME)
+  install(
+    RUNTIME_DEPENDENCY_SET
+    runtime_dependency_set
+    PRE_EXCLUDE_REGEXES
+    [[api-ms-win-.*]]
+    [[ext-ms-.*]]
+    [[kernel32\.dll]]
+    [[libc\.so\..*]]
+    [[libgcc_s\.so\..*]]
+    [[libm\.so\..*]]
+    [[libstdc\+\+\.so\..*]]
+    POST_EXCLUDE_REGEXES
+    [[.*/system32/.*\.dll]]
+    [[^/lib.*]]
+    [[^/usr/lib.*]]
+    DIRECTORIES
+    ${CONAN_RUNTIME_LIB_DIRS})
   set(_targets_str "")
   foreach(_target ${_PackageProject_TARGETS})
     set(_targets_str "${_targets_str} ${_PackageProject_NAMESPACE}${_target}")
   endforeach()
+
   set(USAGE_FILE_CONTENT
       "The package ${_PackageProject_NAME} provides CMake targets:
 
@@ -173,8 +209,7 @@ function(myproject_package_project)
   # download ycm
   FetchContent_Declare(
     _ycm
-    URL https://github.com/robotology/ycm-cmake-modules/releases/download/v0.16.5/ycm-cmake-modules-0.16.5-all.tar.gz
-  )
+    URL https://github.com/robotology/ycm-cmake-modules/releases/download/v0.16.5/ycm-cmake-modules-0.16.5-all.tar.gz)
   FetchContent_MakeAvailable(_ycm)
   include("${_ycm_SOURCE_DIR}/share/YCM/modules/InstallBasicPackageFiles.cmake")
 

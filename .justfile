@@ -1,33 +1,58 @@
 set dotenv-required := true
 set positional-arguments := true
 
+project_name := env_var('PROJECT_NAME')
 build_type := if env_var('PRESET') =~ '.*?debug.*?' {'Debug'} else {'Release'}
 conanrun_file := './out/build/conf-'+env_var('PRESET') + '/conan/build/' + build_type + '/generators/conanrun.sh'
-run_target_file := './out/build/conf-' + env_var('PRESET') + '/bin/' + env_var('LAUNCH_TARGET')
+conanbuild_file := './out/build/conf-'+env_var('PRESET') + '/conan/build/' + build_type + '/generators/conanbuild.sh'
+bin_dir := './out/build/conf-' + env_var('PRESET') + '/bin'
 
 @conf:
   echo "Configuring..."
-  cmake --preset=conf-$PRESET
+  cmake --preset=conf-$PRESET \
+  -D{{project_name}}PACKAGING_MAINTAINER_MODE=$PACKAGING_MAINTAINER_MODE \
+  -D{{project_name}}WARNINGS_AS_ERRORS=$WARNINGS_AS_ERRORS \
+  -D{{project_name}}ENABLE_SANITIZER_LEAK=$ENABLE_SANITIZER_LEAK \
+  -D{{project_name}}ENABLE_SANITIZER_UNDEFINED=$ENABLE_SANITIZER_UNDEFINED \
+  -D{{project_name}}ENABLE_SANITIZER_THREAD=$ENABLE_SANITIZER_THREAD \
+  -D{{project_name}}ENABLE_SANITIZER_MEMORY=$ENABLE_SANITIZER_MEMORY \
+  -D{{project_name}}ENABLE_UNITY_BUILD=$ENABLE_UNITY_BUILD \
+  -D{{project_name}}ENABLE_CLANG_TIDY=$ENABLE_CLANG_TIDY \
+  -D{{project_name}}ENABLE_CPPCHECK=$ENABLE_CPPCHECK \
+  -D{{project_name}}ENABLE_PCH=$ENABLE_PCH \
+  -D{{project_name}}ENABLE_CACHE=$ENABLE_CACHE \
+  -D{{project_name}}ENABLE_IPO=$ENABLE_IPO \
+  -D{{project_name}}ENABLE_SANITIZER_ADDRESS=$ENABLE_SANITIZER_ADDRESS \
+  -D{{project_name}}ENABLE_USER_LINKER=$ENABLE_USER_LINKER \
+  -D{{project_name}}ENABLE_COVERAGE=$ENABLE_COVERAGE \
+  -D{{project_name}}BUILD_FUZZ_TESTS=$BUILD_FUZZ_TESTS \
+  -D{{project_name}}ENABLE_HARDENING=$ENABLE_HARDENING \
+  -D{{project_name}}ENABLE_GLOBAL_HARDENING=$ENABLE_GLOBAL_HARDENING \
+  -DGIT_SHA=$GIT_SHA
+  ln -srf ./out/build/conf-$PRESET/compile_commands.json ./compile_commands.json
 
-@build:
-  echo "Building..."
-  cmake --build --preset=build-$PRESET --target $BUILD_TARGET
+@build target=env_var('BUILD_TARGET'):
+  #!/usr/bin/env bash
+  echo "Building {{target}} ..."
+  source {{conanbuild_file}} && cmake --build --preset=build-$PRESET --target {{target}}
 
-@test: build
+@test: (build "all")
+  #!/usr/bin/env bash
   echo "Testing..."
   source {{conanrun_file}} && ctest --preset=test-$PRESET
 
 @run *args='': build
+  #!/usr/bin/env bash
   echo "Running..."
-  source {{conanrun_file}} && {{run_target_file}} $@
+  source {{conanrun_file}} && {{bin_dir}}/$LAUNCH_TARGET $@
 
-@clean:
+@clean:(_remove_dir './out/build')
   echo "Cleaning..."
-  rm -rf ./out/build
 
-  @pack:
+@pack: build
   echo "Packing..."
+  cd ./out/build/conf-$PRESET && cpack
 
-
-setup_env:
+@_remove_dir dir:
+  - [ -d {{dir}} ] && rm -rf {{dir}}
 
