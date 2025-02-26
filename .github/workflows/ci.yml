@@ -105,14 +105,14 @@ jobs:
         include:
           # Add appropriate variables for gcov version required. This will intentionally break
           # if you try to use a compiler that does not have gcov set
-          - os: ubuntu-22
+          - os: ubuntu-22.04
             compiler: gcc-13
             gcov_executable: gcov
             env:
               - PRESET: unixlike-gcc-debug
               - ENABLE_IPO: ON
 
-          - os: ubuntu-22
+          - os: ubuntu-22.04
             compiler: llvm-18
             gcov_executable: "llvm-cov gcov"
             env:
@@ -229,14 +229,35 @@ jobs:
         with:
           just-version: "1.4.0"
 
-      - name: Conifigure Conan
+      - name: Unix Conifigure Conan
+        if: runner.os != 'Windows'
+        run: |
+          conan profile detect 
+          echo "[options]
+          *:shared=True" >> $HOME/.conan2/profiles/default
+          echo "
+          tools.system.package_manager:mode = install
+          tools.system.package_manager:sudo = True
+          tools.build:skip_test = True" >> $HOME/.conan2/global.conf
+          echo "====================global.conf======================"
+          cat $HOME/.conan2/global.conf
+          echo "===================profile default==================="
+          cat $HOME/.conan2/profiles/default
+
+      - name: Windows Conifigure Conan
+        if: runner.os == 'Windows'
         run: |
           conan profile detect
-          echo "tools.system.package_manager:mode=install
-          tools.system.package_manager:sudo=True
-          tools.build:skip_test=True" >> global.conf
           echo "[options]
-          *:shared=True" >> profiles/default
+          *:shared=True" >> $env:USERPROFILE\.conan2\profiles\default
+          echo "
+          tools.system.package_manager:mode = install
+          tools.system.package_manager:sudo = True
+          tools.build:skip_test = True" >> $env:USERPROFILE\.conan2\global.conf
+          echo "====================global.conf======================"
+          cat $env:USERPROFILE\.conan2\global.conf
+          echo "===================profile default==================="
+          cat $env:USERPROFILE\.conan2\profiles\default
 
       - name: Configure CMake
         run: |
