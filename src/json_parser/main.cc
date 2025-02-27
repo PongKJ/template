@@ -27,7 +27,7 @@ int main( [[maybe_unused]] int argc, [[maybe_unused]] char* argv[] ) {
     dbg( "hello world" );
     std::queue< Person > que;
 
-    CLI::App app{ fmt::format( "{} version {}", myproject::cmake::project_name, myproject::cmake::project_version ) };
+    CLI::App app{ fmt::format( "{} version {}", template::cmake::project_name, template::cmake::project_version ) };
 
     bool show_version = false;
 

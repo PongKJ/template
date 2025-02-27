@@ -65,8 +65,7 @@ jobs:
         uses: ./.github/actions/setup_cache
         with:
           compiler: ${{ matrix.compiler }}
-          build_type: ${{ matrix.build_type }}
-          packaging_maintainer_mode: ${{ matrix.packaging_maintainer_mode }}
+          preset: ${{ matrix.env.PRESET }}
 
       - name: Project Name
         uses: cardinalby/export-env-action@v2
@@ -83,8 +82,7 @@ jobs:
       - name: Conifigure tools
         run: |
           conan profile detect 
-          echo "[options]
-          *:shared=True" >> $HOME/.conan2/profiles/default
+          echo "[options]" >> $HOME/.conan2/profiles/default
           echo "
           tools.system.package_manager:mode = install
           tools.system.package_manager:sudo = True
