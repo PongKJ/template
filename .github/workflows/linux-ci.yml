@@ -1,4 +1,4 @@
-name: ci
+name: linux-ci
 on:
   pull_request:
   release:
@@ -27,81 +27,19 @@ jobs:
       # Disable/enable builds in this list to meet the above recommendations
       # and your own projects needs
       matrix:
-        # os:
-        #   - ubuntu-22.04
+        os:
+          - ubuntu-22.04
         #   - windows-2022
-        # compiler:
-        #   # you can specify the version after `-` like "llvm-15.0.2".
-        #   - gcc-13
+        compiler:
+          # you can specify the version after `-` like "llvm-15.0.2".
+          - gcc-13
         #   - msvc-2022
         #   - llvm-18
-        # cmake_preset:
-        #   - windows-msvc-debug-developer-mode
-        #   - windows-msvc-debug-user-mode
-        #   - windows-msvc-release-developer-mode
-        #   - windows-msvc-release-user-mode
-        #   - windows-clang-debug
-        #   - windows-clang-release
-        #   - unixlike-gcc-debug
-        #   - unixlike-gcc-release
-        #   - unixlike-clang-debug
-        #   - unixlike-clang-release
-        # generator:
-        #   - "Ninja"
-        # build_type:
-        #   - Release
-        #   - Debug
-        # packaging_maintainer_mode:
-        #   - ON
-        #   - OFF
-        # build_shared:
-        #   - OFF
-        #
+        cmake_preset:
+          - unixlike-gcc-debug
+          - unixlike-gcc-release
         # exclude:
-        #   # mingw is determined by this author to be too buggy to support
-        #   - os: windows-2022
-        #     compiler: gcc-13
-        #   - os: windows-2022
-        #     cmake_preset:
-        #       - unixlike-gcc-debug
-        #       - unixlike-gcc-release
-        #       - unixlike-clang-debug
-        #       - unixlike-clang-release
-        #   - os: windows-2022
-        #     compiler: llvm-18
-        #     cmake_preset:
-        #       - windows-msvc-debug-developer-mode
-        #       - windows-msvc-debug-user-mode
-        #       - windows-msvc-release-developer-mode
-        #       - windows-msvc-release-user-mode
-        #   - os: windows-2022
-        #     compiler: msvc-2022
-        #     cmake_preset:
-        #       - windows-clang-debug
-        #       - windows-clang-release
-        #
-        #   - os: ubuntu-22
-        #     compiler: msvc-2022
-        #   - os: ubuntu-22
-        #     cmake_preset:
-        #       - windows-msvc-debug-developer-mode
-        #       - windows-msvc-debug-user-mode
-        #       - windows-msvc-release-developer-mode
-        #       - windows-msvc-release-user-mode
-        #       - windows-clang-debug
-        #       - windows-clang-release
-        #   - os: ubuntu-22
-        #     compiler: gcc-13
-        #     cmake_preset:
-        #       - unixlike-clang-debug
-        #       - unixlike-clang-release
-        #   - os: ubuntu-22
-        #     compiler: llvm-18
-        #     cmake_preset:
-        #       - unixlike-gcc-debug
-        #       - unixlike-gcc-release
-
-        include:
+        # include:
           # Add appropriate variables for gcov version required. This will intentionally break
           # if you try to use a compiler that does not have gcov set
 #          - os: ubuntu-22.04
@@ -143,50 +81,7 @@ jobs:
           #   packaging_maintainer_mode: On
           #   enable_ipo: Off
 
-          # Windows msvc builds
-          # - os: windows-2022
-          #   compiler: msvc-2022
-          #   generator: "Visual Studio 17 2022"
-          #   build_type: Debug
-          #   packaging_maintainer_mode: On
-          #   enable_ipo: On
-          #
-          # - os: windows-2022
-          #   compiler: msvc-2022
-          #   generator: "Visual Studio 17 2022"
-          #   build_type: Release
-          #   packaging_maintainer_mode: On
-          #   enable_ipo: On
-          #
-          # - os: windows-2022
-          #   compiler: msvc-2022
-          #   generator: "Visual Studio 17 2022"
-          #   build_type: Debug
-          #   packaging_maintainer_mode: Off
-          #
-          # - os: windows-2022
-          #   compiler: msvc-2022
-          #   generator: "Visual Studio 17 2022"
-          #   build_type: Release
-          #   packaging_maintainer_mode: Off
-          #   package_generator: ZIP
-          #
-          # - os: windows-2022
-          #   compiler: msvc-2022
-          #   generator: "Visual Studio 17 2022"
-          #   build_type: Release
-          #   packaging_maintainer_mode: On
-          #   enable_ipo: On
-          #   build_shared: On
-
     steps:
-      # - name: Check for llvm version mismatches
-      #   if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
-      #   uses: actions/github-script@v3
-      #   with:
-      #     script: |
-      #       core.setFailed('There is a mismatch between configured llvm compiler and clang-tidy version chosen')
-
       - name: Checkout code
         uses: actions/checkout@v3
 

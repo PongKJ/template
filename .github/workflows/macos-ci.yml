@@ -1,4 +1,4 @@
-name: ci
+name: macos-ci
 on:
   pull_request:
   release:
