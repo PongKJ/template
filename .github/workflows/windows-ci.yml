@@ -191,11 +191,6 @@ jobs:
           pipx install rust-just
           pipx install conan
 
-      - name: WSl install distribution
-        uses: Vampire/setup-wsl@v5
-        with:
-          distribution: Ubuntu-22.04
-
       - name: Conifigure Conan
         run: |
           conan profile detect
