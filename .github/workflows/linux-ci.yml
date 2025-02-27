@@ -76,7 +76,7 @@ jobs:
       - name: Install tools
         run: |
           sudo apt update
-          sudo apt install -y ninja ccache cppcheck gcovr
+          sudo apt install -y ninja-build ccache cppcheck gcovr
           pipx install rust-just
           pipx install conan
 
