@@ -191,7 +191,7 @@ jobs:
           pipx install rust-just
           pipx install conan
 
-      - name: Conifigure Conan
+      - name: Conifigure tools
         run: |
           conan profile detect
           echo "[options]
