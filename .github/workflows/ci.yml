@@ -256,8 +256,7 @@ jobs:
           tools.system.package_manager:mode = install
           tools.system.package_manager:sudo = True
           tools.build:skip_test = True
-          tools.microsoft.bash = C:\Windows\System32\bash.exe
-          tools.microsoft.bash.subsystem = wsl" >> $env:USERPROFILE\.conan2\global.conf
+          tools.microsoft.bash = C:\Windows\System32\bash.exe" >> $env:USERPROFILE\.conan2\global.conf
           echo "====================global.conf======================"
           cat $env:USERPROFILE\.conan2\global.conf
           echo "===================profile default==================="
