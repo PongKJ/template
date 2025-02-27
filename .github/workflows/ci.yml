@@ -208,9 +208,6 @@ jobs:
         with:
           envFile: ".github/constants.env"
 
-      - name: Setup nasm
-        uses: ilammy/setup-nasm@v1
-
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
         with:
@@ -220,20 +217,21 @@ jobs:
           ninja: false
           vcpkg: false
           ccache: false
-          conan: true
+          conan: false
           clangtidy: false
           cppcheck: false
           gcovr: false
           opencppcoverage: false
 
-      - name: Install Just
-        uses: extractions/setup-just@v2
-        with:
-          just-version: "1.39.0"
+      - name: Install tools
+        run: |
+          cargo install just
+          pipx install conan
 
       - name: WSl install distribution
-        run: |
-          wsl install Ubuntu-22.04
+        uses: Vampire/setup-wsl@v5
+        with:
+          distribution: Ubuntu-22.04
 
       - name: Unix Conifigure Conan
         if: runner.os != 'Windows'
