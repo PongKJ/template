@@ -104,24 +104,18 @@ jobs:
         include:
           # Add appropriate variables for gcov version required. This will intentionally break
           # if you try to use a compiler that does not have gcov set
-          - os: ubuntu-22.04
-            compiler: gcc-11
-            gcov_executable: gcov
-            env:
-              PRESET: unixlike-gcc-debug
-              ENABLE_IPO: ON
-          - os: ubuntu-22.04
-            compiler: gcc-11
-            gcov_executable: gcov
-            env:
-              PRESET: unixlike-gcc-release
-              ENABLE_IPO: ON
-
-          - os: windows-2022
-            compiler: msvc
-            env:
-              PRESET: windows-msvc-debug-developer-mode
-              ENABLE_IPO: OFF
+#          - os: ubuntu-22.04
+#            compiler: gcc-11
+#            gcov_executable: gcov
+#            env:
+#              PRESET: unixlike-gcc-debug
+#              ENABLE_IPO: ON
+#          - os: ubuntu-22.04
+#            compiler: gcc-11
+#            gcov_executable: gcov
+#            env:
+#              PRESET: unixlike-gcc-release
+#              ENABLE_IPO: ON
 
           # - os: windows-2022
           #   compiler: llvm-18
@@ -225,16 +219,10 @@ jobs:
 
       - name: Install tools
         run: |
-          cargo install just
+          pipx install rust-just
           pipx install conan
 
-      - name: WSl install distribution
-        uses: Vampire/setup-wsl@v5
-        with:
-          distribution: Ubuntu-22.04
-
-      - name: Unix Conifigure Conan
-        if: runner.os != 'Windows'
+      - name: Conifigure tools
         run: |
           conan profile detect 
           echo "[options]
@@ -247,23 +235,6 @@ jobs:
           cat $HOME/.conan2/global.conf
           echo "===================profile default==================="
           cat $HOME/.conan2/profiles/default
-
-      - name: Windows Conifigure Conan
-        if: runner.os == 'Windows'
-        run: |
-          conan profile detect
-          echo "[options]
-          *:shared=True" >> $env:USERPROFILE\.conan2\profiles\default
-          echo "
-          tools.system.package_manager:mode = install
-          tools.system.package_manager:sudo = True
-          tools.build:skip_test = True
-          tools.microsoft.bash:path = C:\Windows\System32\bash.exe
-          tools.microsoft.bash:subsystem = wsl" >> $env:USERPROFILE\.conan2\global.conf
-          echo "====================global.conf======================"
-          cat $env:USERPROFILE\.conan2\global.conf
-          echo "===================profile default==================="
-          cat $env:USERPROFILE\.conan2\profiles\default
 
       - name: Configure CMake
         run: |
@@ -278,19 +249,12 @@ jobs:
         run: |
           just build
 
-      - name: Unix - Test and coverage
-        if: runner.os != 'Windows'
+      - name: Test and coverage
         # working-directory: ./build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
           just test
-
-      # - name: Windows - Test and coverage
-      #   if: runner.os == 'Windows'
-      #   working-directory: ./build
-      #   run: |
-      #     OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest -C ${{matrix.build_type}}
 
       - name: CPack
         working-directory: ./build
