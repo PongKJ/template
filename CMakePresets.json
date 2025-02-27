@@ -1,4 +1,3 @@
-// only support gcc on linus and msvc on windows
 {
     "version": 3,
     "cmakeMinimumRequired": {
@@ -106,38 +105,6 @@
                 "ENABLE_DEVELOPER_MODE": "OFF"
             }
         },
-        // {
-        //     "name": "conf-windows-clang-debug",
-        //     "displayName": "clang Debug",
-        //     "description": "Target Windows with the clang compiler, debug build type",
-        //     "inherits": "conf-windows-common",
-        //     "cacheVariables": {
-        //         "CMAKE_C_COMPILER": "clang-cl",
-        //         "CMAKE_CXX_COMPILER": "clang-cl",
-        //         "CMAKE_BUILD_TYPE": "Debug"
-        //     },
-        //     "vendor": {
-        //         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-        //             "intelliSenseMode": "windows-clang-x64"
-        //         }
-        //     }
-        // },
-        // {
-        //     "name": "conf-windows-clang-release",
-        //     "displayName": "clang Release",
-        //     "description": "Target Windows with the clang compiler, release build type",
-        //     "inherits": "conf-windows-common",
-        //     "cacheVariables": {
-        //         "CMAKE_C_COMPILER": "clang-cl",
-        //         "CMAKE_CXX_COMPILER": "clang-cl",
-        //         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-        //     },
-        //     "vendor": {
-        //         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-        //             "intelliSenseMode": "windows-clang-x64"
-        //         }
-        //     }
-        // },
         {
             "name": "conf-unixlike-gcc-debug",
             "displayName": "gcc Debug",
@@ -160,28 +127,6 @@
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
         }
-        // {
-        //     "name": "conf-unixlike-clang-debug",
-        //     "displayName": "clang Debug",
-        //     "description": "Target Unix-like OS with the clang compiler, debug build type",
-        //     "inherits": "conf-unixlike-common",
-        //     "cacheVariables": {
-        //         "CMAKE_C_COMPILER": "clang",
-        //         "CMAKE_CXX_COMPILER": "clang++",
-        //         "CMAKE_BUILD_TYPE": "Debug"
-        //     }
-        // },
-        // {
-        //     "name": "conf-unixlike-clang-release",
-        //     "displayName": "clang Release",
-        //     "description": "Target Unix-like OS with the clang compiler, release build type",
-        //     "inherits": "conf-unixlike-common",
-        //     "cacheVariables": {
-        //         "CMAKE_C_COMPILER": "clang",
-        //         "CMAKE_CXX_COMPILER": "clang++",
-        //         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-        //     }
-        // }
     ],
     "buildPresets": [
         {
@@ -201,28 +146,12 @@
             "configurePreset": "conf-windows-msvc-release-user-mode"
         },
         {
-            "name": "build-windows-clang-debug",
-            "configurePreset": "conf-windows-clang-debug"
-        },
-        {
-            "name": "build-windows-clang-release",
-            "configurePreset": "conf-windows-clang-release"
-        },
-        {
             "name": "build-unixlike-gcc-debug",
             "configurePreset": "conf-unixlike-gcc-debug"
         },
         {
             "name": "build-unixlike-gcc-release",
             "configurePreset": "conf-unixlike-gcc-release"
-        },
-        {
-            "name": "build-unixlike-clang-debug",
-            "configurePreset": "conf-unixlike-clang-debug"
-        },
-        {
-            "name": "build-unixlike-clang-release",
-            "configurePreset": "conf-unixlike-clang-release"
         }
     ],
     "testPresets": [
@@ -253,20 +182,6 @@
             "configurePreset": "conf-windows-msvc-release-developer-mode"
         },
         {
-            "name": "test-windows-clang-debug",
-            "displayName": "Strict",
-            "description": "Enable output and stop on failure",
-            "inherits": "test-common",
-            "configurePreset": "conf-windows-clang-debug"
-        },
-        {
-            "name": "test-windows-clang-release",
-            "displayName": "Strict",
-            "description": "Enable output and stop on failure",
-            "inherits": "test-common",
-            "configurePreset": "conf-windows-clang-release"
-        },
-        {
             "name": "test-unixlike-gcc-debug",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
@@ -279,20 +194,6 @@
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
             "configurePreset": "conf-unixlike-gcc-release"
-        },
-        {
-            "name": "test-unixlike-clang-debug",
-            "displayName": "Strict",
-            "description": "Enable output and stop on failure",
-            "inherits": "test-common",
-            "configurePreset": "conf-unixlike-clang-debug"
-        },
-        {
-            "name": "test-unixlike-clang-release",
-            "displayName": "Strict",
-            "description": "Enable output and stop on failure",
-            "inherits": "test-common",
-            "configurePreset": "conf-unixlike-clang-release"
         }
     ]
 }
