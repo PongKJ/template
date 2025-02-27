@@ -10,7 +10,6 @@
             "name": "conf-common",
             "description": "General settings that apply to all configurations",
             "hidden": true,
-            "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "installDir": "${sourceDir}/out/install/${presetName}"
         },
@@ -18,6 +17,7 @@
             "name": "conf-windows-common",
             "description": "Windows settings for MSBuild toolchain that apply to msvc and clang",
             "hidden": true,
+            "generator": "Visual Studio 17 2022",
             "inherits": "conf-common",
             "condition": {
                 "type": "equals",
@@ -41,6 +41,7 @@
             "name": "conf-unixlike-common",
             "description": "Unix-like OS settings for gcc and clang toolchains",
             "hidden": true,
+            "generator": "Ninja",
             "inherits": "conf-common",
             "condition": {
                 "type": "inList",
