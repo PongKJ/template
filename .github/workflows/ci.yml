@@ -231,6 +231,10 @@ jobs:
         with:
           just-version: "1.39.0"
 
+      - name: WSl install distribution
+        run: |
+          wsl install Ubuntu-22.04
+
       - name: Unix Conifigure Conan
         if: runner.os != 'Windows'
         run: |
