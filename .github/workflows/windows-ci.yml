@@ -193,14 +193,9 @@ jobs:
 
       - name: Conifigure tools
         run: |
-          conan profile detect
-          echo "[options]
-          *:shared=True" >> $env:USERPROFILE\.conan2\profiles\default
-          echo "
-          tools.system.package_manager:mode = install
-          tools.system.package_manager:sudo = True
-          tools.build:skip_test = True
-          tools.env.virtualenv:powershell = True" >> $env:USERPROFILE\.conan2\global.conf
+#          conan profile detect
+#          echo "[options]
+#          *:shared=True" >> $env:USERPROFILE\.conan2\profiles\default
           echo "====================global.conf======================"
           cat $env:USERPROFILE\.conan2\global.conf
           echo "===================profile default==================="
