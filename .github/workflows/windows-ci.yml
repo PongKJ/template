@@ -200,6 +200,7 @@ jobs:
           tools.system.package_manager:mode = install
           tools.system.package_manager:sudo = True
           tools.build:skip_test = True
+          tools.microsoft.bash:active = True
           tools.microsoft.bash:path = C:\msys64\usr\bin\bash.exe
           tools.microsoft.bash:subsystem = msys2" >> $env:USERPROFILE\.conan2\global.conf
           echo "====================global.conf======================"
