@@ -109,25 +109,25 @@ jobs:
             compiler: gcc-13
             gcov_executable: gcov
             env:
-              - PRESET: unixlike-gcc-debug
-              - ENABLE_IPO: ON
+              PRESET: unixlike-gcc-debug
+              ENABLE_IPO: ON
 
           - os: ubuntu-22.04
             compiler: llvm-18
             gcov_executable: "llvm-cov gcov"
             env:
-              - PRESET: unixlike-clang-debug
-              - ENABLE_IPO: OFF
+              PRESET: unixlike-clang-debug
+              ENABLE_IPO: OFF
 
           - os: windows-2022
             compiler: msvc-2022
             env:
-              - PRESET: windows-msvc-debug-developer-mode
+              PRESET: windows-msvc-debug-developer-mode
 
           - os: windows-2022
             compiler: llvm-18
             env:
-              - PRESET: windows-clang-debug
+              PRESET: windows-clang-debug
           # - compiler: gcc-13
           #   gcov_executable: gcov
           #   enable_ipo: On
