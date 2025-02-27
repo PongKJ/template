@@ -10,7 +10,7 @@ endif()
 
 # strongly encouraged to enable this globally to avoid conflicts between -Wpedantic being enabled
 # and -std=c++20 and -std=gnu++20 for example when compiling with PCH enabled
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_EXTENSIONS ON)
 # Set the project name and language
 project(
   myproject
@@ -18,9 +18,6 @@ project(
   DESCRIPTION ""
   HOMEPAGE_URL "%%myurl%%"
   LANGUAGES CXX C)
-
-# TODO:currently in develop mode, should be removed in productive environment
-set(myproject_PACKAGING_MAINTAINER_MODE ON)
 
 include(cmake/PreventInSourceBuilds.cmake)
 include(ProjectOptions.cmake)
