@@ -191,6 +191,16 @@ jobs:
           pipx install rust-just
           pipx install conan
 
+      - name: Conifigure tools
+        run: |
+          conan profile detect
+          echo "[options]
+          *:shared=True" >> $env:USERPROFILE\.conan2\profiles\default
+          echo "====================global.conf======================"
+          cat $env:USERPROFILE\.conan2\global.conf
+          echo "===================profile default==================="
+          cat $env:USERPROFILE\.conan2\profiles\default
+
       - name: Configure CMake
         run: |
           just conf
