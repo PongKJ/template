@@ -216,8 +216,8 @@ jobs:
         with:
           compiler: ${{ matrix.compiler }}
           vcvarsall: ${{ contains( matrix.os, 'windows' )}}
-          cmake: true
-          ninja: true
+          cmake: false
+          ninja: false
           vcpkg: false
           ccache: true
           conan: true
@@ -255,7 +255,9 @@ jobs:
           echo "
           tools.system.package_manager:mode = install
           tools.system.package_manager:sudo = True
-          tools.build:skip_test = True" >> $env:USERPROFILE\.conan2\global.conf
+          tools.build:skip_test = True
+          tools.microsoft.bash = C:\Windows\System32\bash.exe
+          tools.microsoft.bash.subsystem = wsl" >> $env:USERPROFILE\.conan2\global.conf
           echo "====================global.conf======================"
           cat $env:USERPROFILE\.conan2\global.conf
           echo "===================profile default==================="
