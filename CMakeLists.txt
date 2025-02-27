@@ -1,16 +1,27 @@
 cmake_minimum_required(VERSION 3.27)
-set(CMAKE_PROJECT_TOP_LEVEL_INCLUDES "cmake/ConanProvider.cmake")
-# This template attempts to be "fetch_content"-able so that it works well with tools like CPM or
-# other manual dependency management
 
 # Only set the cxx_standard if it is not set by someone else
 if(NOT DEFINED CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 20)
+  set(CMAKE_CXX_STANDARD 23)
 endif()
-
+if(NOT DEFINED CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 23)
+endif()
 # strongly encouraged to enable this globally to avoid conflicts between -Wpedantic being enabled
 # and -std=c++20 and -std=gnu++20 for example when compiling with PCH enabled
-set(CMAKE_CXX_EXTENSIONS ON)
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES ".*GNU.*")
+  set(CMAKE_CXX_EXTENSIONS ON)
+else()
+  set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
+if(CMAKE_C_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_C_COMPILER_ID MATCHES ".*GNU.*")
+  set(CMAKE_C_EXTENSIONS ON)
+else()
+  set(CMAKE_C_EXTENSIONS OFF)
+endif()
+
+set(CMAKE_PROJECT_TOP_LEVEL_INCLUDES "cmake/ConanProvider.cmake")
+
 # Set the project name and language
 project(
   myproject
