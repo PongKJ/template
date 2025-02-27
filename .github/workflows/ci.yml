@@ -227,7 +227,7 @@ jobs:
       - name: Install Just
         uses: extractions/setup-just@v2
         with:
-          just-version: "1.4.0"
+          just-version: "1.39.0"
 
       - name: Unix Conifigure Conan
         if: runner.os != 'Windows'
