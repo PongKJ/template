@@ -10,7 +10,6 @@ on:
       - develop
 
 env:
-  CLANG_TIDY_VERSION: "18"
   VERBOSE: 1
   UPLOAD_BIN_DIR: true
 
@@ -106,28 +105,27 @@ jobs:
           # Add appropriate variables for gcov version required. This will intentionally break
           # if you try to use a compiler that does not have gcov set
           - os: ubuntu-22.04
-            compiler: gcc-13
+            compiler: gcc-11
             gcov_executable: gcov
             env:
               PRESET: unixlike-gcc-debug
               ENABLE_IPO: ON
-
           - os: ubuntu-22.04
-            compiler: llvm-18
-            gcov_executable: "llvm-cov gcov"
+            compiler: gcc-11
+            gcov_executable: gcov
             env:
-              PRESET: unixlike-clang-debug
-              ENABLE_IPO: OFF
+              PRESET: unixlike-gcc-release
+              ENABLE_IPO: ON
 
           - os: windows-2022
-            compiler: msvc-2022
+            compiler: msvc
             env:
               PRESET: windows-msvc-debug-developer-mode
 
-          - os: windows-2022
-            compiler: llvm-18
-            env:
-              PRESET: windows-clang-debug
+          # - os: windows-2022
+          #   compiler: llvm-18
+          #   env:
+          #     PRESET: windows-clang-debug
           # - compiler: gcc-13
           #   gcov_executable: gcov
           #   enable_ipo: On
@@ -187,12 +185,12 @@ jobs:
           #   build_shared: On
 
     steps:
-      - name: Check for llvm version mismatches
-        if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
-        uses: actions/github-script@v3
-        with:
-          script: |
-            core.setFailed('There is a mismatch between configured llvm compiler and clang-tidy version chosen')
+      # - name: Check for llvm version mismatches
+      #   if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
+      #   uses: actions/github-script@v3
+      #   with:
+      #     script: |
+      #       core.setFailed('There is a mismatch between configured llvm compiler and clang-tidy version chosen')
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -210,17 +208,20 @@ jobs:
         with:
           envFile: ".github/constants.env"
 
+      - name: Setup nasm
+        uses: ilammy/setup-nasm@v1
+
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
         with:
           compiler: ${{ matrix.compiler }}
-          vcvarsall: ${{ contains(matrix.os, 'windows' )}}
+          vcvarsall: ${{ contains( matrix.os, 'windows' )}}
           cmake: true
           ninja: true
           vcpkg: false
           ccache: true
           conan: true
-          clangtidy: ${{ env.CLANG_TIDY_VERSION }}
+          clangtidy: true
           cppcheck: true
           gcovr: true
           opencppcoverage: true

@@ -1,3 +1,4 @@
+// only support gcc on linus and msvc on windows
 {
     "version": 3,
     "cmakeMinimumRequired": {
@@ -10,7 +11,6 @@
             "name": "conf-common",
             "description": "General settings that apply to all configurations",
             "hidden": true,
-            "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "installDir": "${sourceDir}/out/install/${presetName}"
         },
@@ -18,6 +18,7 @@
             "name": "conf-windows-common",
             "description": "Windows settings for MSBuild toolchain that apply to msvc and clang",
             "hidden": true,
+            "generator": "Visual Studio 17 2022",
             "inherits": "conf-common",
             "condition": {
                 "type": "equals",
@@ -41,6 +42,7 @@
             "name": "conf-unixlike-common",
             "description": "Unix-like OS settings for gcc and clang toolchains",
             "hidden": true,
+            "generator": "Ninja",
             "inherits": "conf-common",
             "condition": {
                 "type": "inList",
@@ -104,38 +106,38 @@
                 "ENABLE_DEVELOPER_MODE": "OFF"
             }
         },
-        {
-            "name": "conf-windows-clang-debug",
-            "displayName": "clang Debug",
-            "description": "Target Windows with the clang compiler, debug build type",
-            "inherits": "conf-windows-common",
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_BUILD_TYPE": "Debug"
-            },
-            "vendor": {
-                "microsoft.com/VisualStudioSettings/CMake/1.0": {
-                    "intelliSenseMode": "windows-clang-x64"
-                }
-            }
-        },
-        {
-            "name": "conf-windows-clang-release",
-            "displayName": "clang Release",
-            "description": "Target Windows with the clang compiler, release build type",
-            "inherits": "conf-windows-common",
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-            },
-            "vendor": {
-                "microsoft.com/VisualStudioSettings/CMake/1.0": {
-                    "intelliSenseMode": "windows-clang-x64"
-                }
-            }
-        },
+        // {
+        //     "name": "conf-windows-clang-debug",
+        //     "displayName": "clang Debug",
+        //     "description": "Target Windows with the clang compiler, debug build type",
+        //     "inherits": "conf-windows-common",
+        //     "cacheVariables": {
+        //         "CMAKE_C_COMPILER": "clang-cl",
+        //         "CMAKE_CXX_COMPILER": "clang-cl",
+        //         "CMAKE_BUILD_TYPE": "Debug"
+        //     },
+        //     "vendor": {
+        //         "microsoft.com/VisualStudioSettings/CMake/1.0": {
+        //             "intelliSenseMode": "windows-clang-x64"
+        //         }
+        //     }
+        // },
+        // {
+        //     "name": "conf-windows-clang-release",
+        //     "displayName": "clang Release",
+        //     "description": "Target Windows with the clang compiler, release build type",
+        //     "inherits": "conf-windows-common",
+        //     "cacheVariables": {
+        //         "CMAKE_C_COMPILER": "clang-cl",
+        //         "CMAKE_CXX_COMPILER": "clang-cl",
+        //         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+        //     },
+        //     "vendor": {
+        //         "microsoft.com/VisualStudioSettings/CMake/1.0": {
+        //             "intelliSenseMode": "windows-clang-x64"
+        //         }
+        //     }
+        // },
         {
             "name": "conf-unixlike-gcc-debug",
             "displayName": "gcc Debug",
@@ -157,29 +159,29 @@
                 "CMAKE_CXX_COMPILER": "g++",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
-        },
-        {
-            "name": "conf-unixlike-clang-debug",
-            "displayName": "clang Debug",
-            "description": "Target Unix-like OS with the clang compiler, debug build type",
-            "inherits": "conf-unixlike-common",
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "conf-unixlike-clang-release",
-            "displayName": "clang Release",
-            "description": "Target Unix-like OS with the clang compiler, release build type",
-            "inherits": "conf-unixlike-common",
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-            }
         }
+        // {
+        //     "name": "conf-unixlike-clang-debug",
+        //     "displayName": "clang Debug",
+        //     "description": "Target Unix-like OS with the clang compiler, debug build type",
+        //     "inherits": "conf-unixlike-common",
+        //     "cacheVariables": {
+        //         "CMAKE_C_COMPILER": "clang",
+        //         "CMAKE_CXX_COMPILER": "clang++",
+        //         "CMAKE_BUILD_TYPE": "Debug"
+        //     }
+        // },
+        // {
+        //     "name": "conf-unixlike-clang-release",
+        //     "displayName": "clang Release",
+        //     "description": "Target Unix-like OS with the clang compiler, release build type",
+        //     "inherits": "conf-unixlike-common",
+        //     "cacheVariables": {
+        //         "CMAKE_C_COMPILER": "clang",
+        //         "CMAKE_CXX_COMPILER": "clang++",
+        //         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+        //     }
+        // }
     ],
     "buildPresets": [
         {
