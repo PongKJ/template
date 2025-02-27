@@ -197,11 +197,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up environment variables
-        run: |
-          echo "PRESET=${{ matrix.env.PRESET }}" >> $GITHUB_ENV
-          echo "ENABLE_IPO=${{ matrix.env.ENABLE_IPO }}" >> $GITHUB_ENV
-
       - name: Setup Cache
         uses: ./.github/actions/setup_cache
         with:
@@ -269,6 +264,9 @@ jobs:
         run: |
           just conf
           # cmake --preset=conf-${{matrix.cmake_preset}} -D${{ env.PROJECT_NAME }}_ENABLE_IPO=${{matrix.enable_ipo }} -D${{ env.PROJECT_NAME }}_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }} -DGIT_SHA:STRING=${{ github.sha }}
+        env:
+          PRESET: ${{matrix.env.PRESET}}
+          ENABLE_IPO: ${{matrix.env.ENABLE_IPO}}
 
       - name: Build
         id: build
