@@ -22,4 +22,4 @@ class ConanApplication(ConanFile):
         for requirement in requirements:
             self.requires(requirement)
     def configure(self):
-        self.options['xkbcommon'].with_wayland = False
+        self.options['opencv'].with_wayland = False

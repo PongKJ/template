@@ -22,14 +22,14 @@ jobs:
         os:
            - windows-2022
         compiler:
-        #   # you can specify the version after `-` like "llvm-15.0.2".
+           # you can specify the version after `-` like "llvm-15.0.2".
         #  - gcc-13
            - msvc-2022
-        cmake_preset:
-           - windows-msvc-debug-developer-mode
-           - windows-msvc-debug-user-mode
-           - windows-msvc-release-developer-mode
-           - windows-msvc-release-user-mode
+        env:
+          - PRESET: windows-msvc-debug-developer-mode
+            ENABLE_IPO: OFF
+          - PRESET: windows-msvc-release-developer-mode
+            ENABLE_IPO: OFF
         # exclude:
         #   # mingw is determined by this author to be too buggy to support
         #   - os: windows-2022
@@ -42,14 +42,14 @@ jobs:
         #       - unixlike-clang-release
         #
 
-        include:
+#        include:
           # Add appropriate variables for gcov version required. This will intentionally break
           # if you try to use a compiler that does not have gcov set
-          - os: windows-2022
-            compiler: msvc
-            env:
-              PRESET: windows-msvc-debug-developer-mode
-              ENABLE_IPO: OFF
+#          - os: windows-2022
+#            compiler: msvc
+#            env:
+#              PRESET: windows-msvc-debug-developer-mode
+#              ENABLE_IPO: OFF
 
           # - os: windows-2022
           #   compiler: llvm-18
@@ -82,11 +82,8 @@ jobs:
 
       - name: Install tools
         run: |
-          choco install ccache
-          choco install cppcheck
-          choco install opencppcoverage
-          pipx install rust-just
-          pipx install conan
+          choco install ccache cppcheck opencppcoverage
+          pipx install rust-just conan
 
       - name: Conifigure tools
         run: |
