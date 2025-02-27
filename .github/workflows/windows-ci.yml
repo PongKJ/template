@@ -196,6 +196,9 @@ jobs:
           conan profile detect
           echo "[options]
           *:shared=True" >> $env:USERPROFILE\.conan2\profiles\default
+          echo "
+          tools.system.package_manager:mode = install
+          tools.system.package_manager:sudo = True" >> $env:USERPROFILE\.conan2\global.conf
           echo "====================global.conf======================"
           cat $env:USERPROFILE\.conan2\global.conf
           echo "===================profile default==================="
