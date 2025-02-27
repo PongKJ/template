@@ -194,7 +194,13 @@ jobs:
           script: |
             core.setFailed('There is a mismatch between configured llvm compiler and clang-tidy version chosen')
 
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up environment variables
+        run: |
+          echo "PRESET=${{ matrix.env.PRESET }}" >> $GITHUB_ENV
+          echo "ENABLE_IPO=${{ matrix.env.ENABLE_IPO }}" >> $GITHUB_ENV
 
       - name: Setup Cache
         uses: ./.github/actions/setup_cache
