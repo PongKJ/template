@@ -20,11 +20,11 @@ jobs:
       fail-fast: false
       matrix:
         os:
-           - windows-2022
+          - windows-2022
         compiler:
-           # you can specify the version after `-` like "llvm-15.0.2".
-        #  - gcc-13
-           - msvc-2022
+          # you can specify the version after `-` like "llvm-15.0.2".
+          #  - gcc-13
+          - msvc-2022
         env:
           - PRESET: windows-msvc-debug-developer-mode
             ENABLE_IPO: OFF
@@ -42,27 +42,27 @@ jobs:
         #       - unixlike-clang-release
         #
 
-#        include:
-          # Add appropriate variables for gcov version required. This will intentionally break
-          # if you try to use a compiler that does not have gcov set
-#          - os: windows-2022
-#            compiler: msvc
-#            env:
-#              PRESET: windows-msvc-debug-developer-mode
-#              ENABLE_IPO: OFF
+    #        include:
+    # Add appropriate variables for gcov version required. This will intentionally break
+    # if you try to use a compiler that does not have gcov set
+    #          - os: windows-2022
+    #            compiler: msvc
+    #            env:
+    #              PRESET: windows-msvc-debug-developer-mode
+    #              ENABLE_IPO: OFF
 
-          # - os: windows-2022
-          #   compiler: llvm-18
-          #   env:
-          #     PRESET: windows-clang-debug
-          # - compiler: gcc-13
-          #   gcov_executable: gcov
-          #   enable_ipo: On
-          #
-          # # Set up preferred package generators, for given build configurations
-          # - build_type: Release
-          #   packaging_maintainer_mode: OFF
-          #   package_generator: TBZ2
+    # - os: windows-2022
+    #   compiler: llvm-18
+    #   env:
+    #     PRESET: windows-clang-debug
+    # - compiler: gcc-13
+    #   gcov_executable: gcov
+    #   enable_ipo: On
+    #
+    # # Set up preferred package generators, for given build configurations
+    # - build_type: Release
+    #   packaging_maintainer_mode: OFF
+    #   package_generator: TBZ2
 
     steps:
       - name: Checkout code
@@ -81,8 +81,11 @@ jobs:
           envFile: ".github/constants.env"
 
       - name: Install tools
+        working-directory: ./scripts/setup
         run: |
-          choco install ccache cppcheck opencppcoverage ninja conan just
+          choco install -y just
+          just setup
+          RefreshEnv.cmd
 
       - name: Conifigure tools
         run: |
@@ -95,8 +98,10 @@ jobs:
           echo "===================profile default==================="
           cat $env:USERPROFILE\.conan2\profiles\default
 
-      - name: Setup MSVC env 
-        uses: ilammy/msvc-dev-cmd@v1
+      - name: Setup MSVC env
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+          vs-path: ${{env.MSVC_INSTALL_DIR}}\\buildTools
 
       - name: Configure CMake
         run: |
