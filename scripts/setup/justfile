@@ -1,15 +1,13 @@
 # Maintaining build tools ans so on
+set windows-shell := ["C:\\Program Files\\Git\\bin\\bash.exe", "-c"]
 set dotenv-required := true
 set positional-arguments := true
 
 [windows]
 @setup:
-  if [[ ${CI} ]];then \
-    echo "Uninstall MSVC-2022"; \
-    vs_installer --uninstall --productId Microsoft.VisualStudio.Product.BuildTools --all \
-  fi
   echo "Installing build tools..."
-  reg add 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows Kits\\Installed Roots' /v 'KitsRoot10' /t 'REG_SZ' -d $MSVC_INSTALL_DIR\\WindowsKits
+  # ERROR: permission denied
+  # reg add 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows Kits\\Installed Roots' /v 'KitsRoot10' /t 'REG_SZ' -d $MSVC_INSTALL_DIR\\WindowsKits
   choco install -y visualstudio2022buildtools --package-parameters "--passive --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --remove Microsoft.VisualStudio.Component.VC.CMake.Project --path install=$MSVC_INSTALL_DIR\\buildTools --path shared=$MSVC_INSTALL_DIR\\shared --path cache=$MSVC_INSTALL_DIR\\cache"
   echo "Installing tools..."
   choco install -y cmake ccache cppcheck opencppcoverage ninja conan

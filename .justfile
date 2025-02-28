@@ -1,3 +1,4 @@
+set windows-shell := ["C:\\Program Files\\Git\\bin\\bash.exe", "-c"]
 set dotenv-required := true
 set positional-arguments := true
 
@@ -10,24 +11,24 @@ bin_dir := './out/build/conf-' + env_var('PRESET') + '/bin'
 @conf:
   echo "Configuring..."
   cmake --preset=conf-$PRESET \
-  -D{{project_name}}PACKAGING_MAINTAINER_MODE=$PACKAGING_MAINTAINER_MODE \
-  -D{{project_name}}WARNINGS_AS_ERRORS=$WARNINGS_AS_ERRORS \
-  -D{{project_name}}ENABLE_SANITIZER_LEAK=$ENABLE_SANITIZER_LEAK \
-  -D{{project_name}}ENABLE_SANITIZER_UNDEFINED=$ENABLE_SANITIZER_UNDEFINED \
-  -D{{project_name}}ENABLE_SANITIZER_THREAD=$ENABLE_SANITIZER_THREAD \
-  -D{{project_name}}ENABLE_SANITIZER_MEMORY=$ENABLE_SANITIZER_MEMORY \
-  -D{{project_name}}ENABLE_UNITY_BUILD=$ENABLE_UNITY_BUILD \
-  -D{{project_name}}ENABLE_CLANG_TIDY=$ENABLE_CLANG_TIDY \
-  -D{{project_name}}ENABLE_CPPCHECK=$ENABLE_CPPCHECK \
-  -D{{project_name}}ENABLE_PCH=$ENABLE_PCH \
-  -D{{project_name}}ENABLE_CACHE=$ENABLE_CACHE \
-  -D{{project_name}}ENABLE_IPO=$ENABLE_IPO \
-  -D{{project_name}}ENABLE_SANITIZER_ADDRESS=$ENABLE_SANITIZER_ADDRESS \
-  -D{{project_name}}ENABLE_USER_LINKER=$ENABLE_USER_LINKER \
-  -D{{project_name}}ENABLE_COVERAGE=$ENABLE_COVERAGE \
-  -D{{project_name}}BUILD_FUZZ_TESTS=$BUILD_FUZZ_TESTS \
-  -D{{project_name}}ENABLE_HARDENING=$ENABLE_HARDENING \
-  -D{{project_name}}ENABLE_GLOBAL_HARDENING=$ENABLE_GLOBAL_HARDENING \
+  -D{{project_name}}_PACKAGING_MAINTAINER_MODE=$PACKAGING_MAINTAINER_MODE \
+  -D{{project_name}}_WARNINGS_AS_ERRORS=$WARNINGS_AS_ERRORS \
+  -D{{project_name}}_ENABLE_SANITIZER_LEAK=$ENABLE_SANITIZER_LEAK \
+  -D{{project_name}}_ENABLE_SANITIZER_UNDEFINED=$ENABLE_SANITIZER_UNDEFINED \
+  -D{{project_name}}_ENABLE_SANITIZER_THREAD=$ENABLE_SANITIZER_THREAD \
+  -D{{project_name}}_ENABLE_SANITIZER_MEMORY=$ENABLE_SANITIZER_MEMORY \
+  -D{{project_name}}_ENABLE_UNITY_BUILD=$ENABLE_UNITY_BUILD \
+  -D{{project_name}}_ENABLE_CLANG_TIDY=$ENABLE_CLANG_TIDY \
+  -D{{project_name}}_ENABLE_CPPCHECK=$ENABLE_CPPCHECK \
+  -D{{project_name}}_ENABLE_PCH=$ENABLE_PCH \
+  -D{{project_name}}_ENABLE_CACHE=$ENABLE_CACHE \
+  -D{{project_name}}_ENABLE_IPO=$ENABLE_IPO \
+  -D{{project_name}}_ENABLE_SANITIZER_ADDRESS=$ENABLE_SANITIZER_ADDRESS \
+  -D{{project_name}}_ENABLE_USER_LINKER=$ENABLE_USER_LINKER \
+  -D{{project_name}}_ENABLE_COVERAGE=$ENABLE_COVERAGE \
+  -D{{project_name}}_BUILD_FUZZ_TESTS=$BUILD_FUZZ_TESTS \
+  -D{{project_name}}_ENABLE_HARDENING=$ENABLE_HARDENING \
+  -D{{project_name}}_ENABLE_GLOBAL_HARDENING=$ENABLE_GLOBAL_HARDENING \
   -DGIT_SHA=$GIT_SHA
   ln -srf ./out/build/conf-$PRESET/compile_commands.json ./compile_commands.json
 

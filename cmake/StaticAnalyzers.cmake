@@ -1,11 +1,11 @@
-macro(template_enable_cppcheck WARNINGS_AS_ERRORS CPPCHECK_OPTIONS)
+macro(c_cpp_template_enable_cppcheck WARNINGS_AS_ERRORS CPPCHECK_OPTIONS)
   find_program(CPPCHECK cppcheck)
   if(CPPCHECK)
 
     if(CMAKE_GENERATOR MATCHES ".*Visual Studio.*")
-      set(CPPCHECK_TEMPLATE "vs")
+      set(CPPCHECK_C_CPP_TEMPLATE "vs")
     else()
-      set(CPPCHECK_TEMPLATE "gcc")
+      set(CPPCHECK_C_CPP_TEMPLATE "gcc")
     endif()
 
     if("${CPPCHECK_OPTIONS}" STREQUAL "")
@@ -15,7 +15,7 @@ macro(template_enable_cppcheck WARNINGS_AS_ERRORS CPPCHECK_OPTIONS)
       message(STATUS "CPPCHECK_OPTIONS suppress: ${SUPPRESS_DIR}")
       set(CMAKE_CXX_CPPCHECK
           ${CPPCHECK}
-          --template=${CPPCHECK_TEMPLATE}
+          --c_cpp_template=${CPPCHECK_C_CPP_TEMPLATE}
           --enable=style,performance,warning,portability
           --inline-suppr
           # We cannot act on a bug/missing feature of cppcheck
@@ -31,8 +31,8 @@ macro(template_enable_cppcheck WARNINGS_AS_ERRORS CPPCHECK_OPTIONS)
           --inconclusive
           --suppress=${SUPPRESS_DIR})
     else()
-      # if the user provides a CPPCHECK_OPTIONS with a template specified, it will override this template
-      set(CMAKE_CXX_CPPCHECK ${CPPCHECK} --template=${CPPCHECK_TEMPLATE} ${CPPCHECK_OPTIONS})
+      # if the user provides a CPPCHECK_OPTIONS with a c_cpp_template specified, it will override this c_cpp_template
+      set(CMAKE_CXX_CPPCHECK ${CPPCHECK} --c_cpp_template=${CPPCHECK_C_CPP_TEMPLATE} ${CPPCHECK_OPTIONS})
     endif()
 
     if(NOT
@@ -49,7 +49,7 @@ macro(template_enable_cppcheck WARNINGS_AS_ERRORS CPPCHECK_OPTIONS)
   endif()
 endmacro()
 
-macro(template_enable_clang_tidy target WARNINGS_AS_ERRORS)
+macro(c_cpp_template_enable_clang_tidy target WARNINGS_AS_ERRORS)
 
   find_program(CLANGTIDY clang-tidy)
   if(CLANGTIDY)
@@ -102,7 +102,7 @@ macro(template_enable_clang_tidy target WARNINGS_AS_ERRORS)
   endif()
 endmacro()
 
-macro(template_enable_include_what_you_use)
+macro(c_cpp_template_enable_include_what_you_use)
   find_program(INCLUDE_WHAT_YOU_USE include-what-you-use)
   if(INCLUDE_WHAT_YOU_USE)
     set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${INCLUDE_WHAT_YOU_USE})
