@@ -98,16 +98,16 @@ jobs:
           cat $env:USERPROFILE\.conan2\global.conf
           echo "===================profile default==================="
           cat $env:USERPROFILE\.conan2\profiles\default
-          OpenCppCoverage --version
 
 
-      - name: Setup MSVC env
-        uses: TheMrMilchmann/setup-msvc-dev@v3
-        with:
-          vs-path: ${{env.MSVC_INSTALL_DIR}}\\buildTools
+      # - name: Setup MSVC env
+      #   uses: TheMrMilchmann/setup-msvc-dev@v3
+      #   with:
+      #     vs-path: ${{env.MSVC_INSTALL_DIR}}\\buildTools
 
       - name: Configure CMake
         run: |
+          OpenCppCoverage --version
           just conf
         env:
           PRESET: ${{matrix.env.PRESET}}
