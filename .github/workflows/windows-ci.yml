@@ -90,9 +90,9 @@ jobs:
                       [Parameter(Mandatory=$true)]
                       [string] $Command
                   )
-                  $Command = "\`"" + $Command + "\`""
+                  $Command = "`"" + $Command + "`""
                   cmd /c "$Command > nul 2>&1 && set" | . { process { ' >> $PROFILE
-          echo "           if (\$_ -match '^([^=]+)=(.*)') {
+          echo "        if (\$_ -match '^([^=]+)=(.*)') {
                           [System.Environment]::SetEnvironmentVariable(\$matches[1], \$matches[2])
                       }
                   }}
