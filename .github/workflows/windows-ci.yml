@@ -91,13 +91,12 @@ jobs:
         with:
           arch: x64
           vs-path: ${{env.MSVC_INSTALL_DIR}}\\buildTools
-          export-path-to-vcvarsall: true
-          export-path-to-vs: true
 
       - name: Build,test and pack
         run: |
           Import-Module "$env:ChocolateyInstall/helpers/chocolateyInstaller.psm1"
           refreshenv
+          echo $env.PATH
           conan profile detect
           echo "[options]" >> $env:USERPROFILE\.conan2\profiles\default
           echo "
