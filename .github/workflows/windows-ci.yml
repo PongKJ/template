@@ -96,7 +96,6 @@ jobs:
                       [Parameter(Mandatory=$true)] \
                       [string] $Command \
                   ) \
-              
                   $Command = "\`"" + $Command + "\`"" \
                   cmd /c "$Command > nul 2>&1 && set" | . { process { \
                       if ($_ -match '^([^=]+)=(.*)') { \
