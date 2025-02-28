@@ -17,7 +17,7 @@ jobs:
   BuildAndTest:
     defaults:
       run:
-        shell: powershell
+        shell: cmd
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
