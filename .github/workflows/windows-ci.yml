@@ -89,6 +89,7 @@ jobs:
       - name: Setup MSVC env
         uses: TheMrMilchmann/setup-msvc-dev@v3
         with:
+          arch: x64
           vs-path: ${{env.MSVC_INSTALL_DIR}}\\buildTools
 
       - name: Build,test and pack
