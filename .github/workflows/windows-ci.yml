@@ -15,9 +15,6 @@ env:
 
 jobs:
   BuildAndTest:
-    defaults:
-      run:
-        shell: powershell
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -101,7 +98,7 @@ jobs:
               }}
           }
           '@
-          Add-Content -Path $PROFILE -Value $multiLineText
+          echo $multiLineText >> $PROFILE
           cat $PROFILE
 
       - name: Install tools
