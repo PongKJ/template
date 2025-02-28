@@ -80,12 +80,6 @@ jobs:
         with:
           envFile: ".github/constants.env"
 
-      - name: Install tools
-        working-directory: ./scripts/setup
-        run: |
-          choco install -y just
-          just setup
-
       - name: Config powershell
         run: |
           echo '
@@ -103,6 +97,12 @@ jobs:
                       }
                   }}
               }`)' >> $PROFILE
+
+      - name: Install tools
+        working-directory: ./scripts/setup
+        run: |
+          choco install -y just
+          just setup
 
       - name: Build,test and pack
         run: |
