@@ -98,7 +98,10 @@ jobs:
               }}
           }
           '@
-          touch $PROFILE
+          $directory = [System.IO.Path]::GetDirectoryName($PROFILE)
+          if (-not (Test-Path -Path $directory)) {
+              New-Item -ItemType Directory -Path $PROFILE -Force
+          }
           echo $multiLineText >> $PROFILE
           cat $PROFILE
 
