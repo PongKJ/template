@@ -91,12 +91,13 @@ jobs:
                       [string] $Command
                   )
                   $Command = "\`"" + $Command + "\`""
-                  cmd /c "$Command > nul 2>&1 && set" | . { process {
-                      if ($_ -match '^([^=]+)=(.*)') {
-                          [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
+                  cmd /c "$Command > nul 2>&1 && set" | . { process { ' >> $PROFILE
+          echo "           if (\$_ -match '^([^=]+)=(.*)') {
+                          [System.Environment]::SetEnvironmentVariable(\$matches[1], \$matches[2])
                       }
                   }}
-              }`)' >> $PROFILE
+              }`)" >> $PROFILE
+          cat $PROFILE
 
       - name: Install tools
         working-directory: ./scripts/setup
