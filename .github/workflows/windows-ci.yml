@@ -93,13 +93,13 @@ jobs:
       - name: Conifigure tools
         run: |
           conan profile detect
-          echo "[options]" >> $env:USERPROFILE\.conan2\profiles\default
+          echo "[options]" >> %USERPROFILE%\.conan2\profiles\default
           echo "
-          tools.build:skip_test = True" >> $env:USERPROFILE\.conan2\global.conf
+          tools.build:skip_test = True" >> %USERPROFILE%\.conan2\global.conf
           echo "====================global.conf======================"
-          cat $env:USERPROFILE\.conan2\global.conf
+          type %USERPROFILE%\.conan2\global.conf
           echo "===================profile default==================="
-          cat $env:USERPROFILE\.conan2\profiles\default
+          type %USERPROFILE%\.conan2\profiles\default
 
       - name: Setup MSVC env
         uses: TheMrMilchmann/setup-msvc-dev@v3
@@ -121,7 +121,7 @@ jobs:
       - name: Test and coverage
         working-directory: ./out/build/${{matrix.env.PRESET}}
         run: |
-          OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest
+          OpenCppCoverage --export_type cobertura:coverage.xml --cover_children -- ctest
 
       - name: CPack
         run: |
