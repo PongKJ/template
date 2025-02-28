@@ -86,7 +86,12 @@ jobs:
           choco install -y just
           just setup
 
-      - name: Conifigure tools
+      - name: Setup MSVC env
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+          vs-path: ${{env.MSVC_INSTALL_DIR}}\\buildTools
+
+      - name: Build,test and pack
         run: |
           Import-Module "$env:ChocolateyInstall/helpers/chocolateyInstaller.psm1"
           refreshenv
@@ -98,34 +103,23 @@ jobs:
           cat $env:USERPROFILE\.conan2\global.conf
           echo "===================profile default==================="
           cat $env:USERPROFILE\.conan2\profiles\default
-
-
-      # - name: Setup MSVC env
-      #   uses: TheMrMilchmann/setup-msvc-dev@v3
-      #   with:
-      #     vs-path: ${{env.MSVC_INSTALL_DIR}}\\buildTools
-
-      - name: Configure CMake
-        run: |
-          OpenCppCoverage --version
+          echo "====================================================="
+          echo "Starting building project...."
+          echo "====================================================="
+          echo "**************  Runing cmake configure  ****************"
           just conf
+          echo "**************    Runing cmake build    ****************"
+          just build 
+          echo "**************    Test and coverage     ****************"
+          just test
+          # TODO: add coverage to justfile
+          cd ./out/build/${{matrix.env.PRESET}}
+          OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest
+          echo "**************      Run cmake pack      ****************"
+          just pack
         env:
           PRESET: ${{matrix.env.PRESET}}
           ENABLE_IPO: ${{matrix.env.ENABLE_IPO}}
-
-      - name: Build
-        id: build
-        run: |
-          just build
-
-      - name: Test and coverage
-        working-directory: ./out/build/${{matrix.env.PRESET}}
-        run: |
-          OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest
-
-      - name: CPack
-        run: |
-          just pack
 
       - name: Publish Tagged Release
         uses: softprops/action-gh-release@v1
