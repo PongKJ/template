@@ -15,6 +15,9 @@ env:
 
 jobs:
   BuildAndTest:
+    defaults:
+      run:
+        shell: pwsh
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
