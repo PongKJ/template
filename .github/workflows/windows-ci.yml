@@ -88,21 +88,21 @@ jobs:
 
       - name: Config powershell
         run: |
-          echo "
-              function Invoke-Environment {
-                  param
-                  (
-                      # Any cmd shell command, normally a configuration batch file.
-                      [Parameter(Mandatory=$true)]
-                      [string] $Command
-                  )
+          echo " \
+              function Invoke-Environment { \
+                  param \
+                  ( \
+                      # Any cmd shell command, normally a configuration batch file. \
+                      [Parameter(Mandatory=$true)] \
+                      [string] $Command \
+                  ) \
               
-                  $Command = "\`"" + $Command + "\`""
-                  cmd /c "$Command > nul 2>&1 && set" | . { process {
-                      if ($_ -match '^([^=]+)=(.*)') {
-                          [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
-                      }
-                  }}
+                  $Command = "\`"" + $Command + "\`"" \
+                  cmd /c "$Command > nul 2>&1 && set" | . { process { \
+                      if ($_ -match '^([^=]+)=(.*)') { \
+                          [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2]) \
+                      } \
+                  }} \
               }`)" >> $PROFILE
 
       - name: Build,test and pack
