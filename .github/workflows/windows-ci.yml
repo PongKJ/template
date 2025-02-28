@@ -86,16 +86,30 @@ jobs:
           choco install -y just
           just setup
 
-      - name: Setup MSVC env
-        uses: TheMrMilchmann/setup-msvc-dev@v3
-        with:
-          arch: x64
-          vs-path: ${{env.MSVC_INSTALL_DIR}}\\buildTools
+      - name: Config powershell
+        run: |
+          echo "
+              function Invoke-Environment {
+                  param
+                  (
+                      # Any cmd shell command, normally a configuration batch file.
+                      [Parameter(Mandatory=$true)]
+                      [string] $Command
+                  )
+              
+                  $Command = "\`"" + $Command + "\`""
+                  cmd /c "$Command > nul 2>&1 && set" | . { process {
+                      if ($_ -match '^([^=]+)=(.*)') {
+                          [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
+                      }
+                  }}
+              }`)" >> $PROFILE
 
       - name: Build,test and pack
         run: |
           Import-Module "$env:ChocolateyInstall/helpers/chocolateyInstaller.psm1"
           refreshenv
+          Invoke-Environment(${{env.MSVC_INSTALL_DIR}\\buildTools\\VC\\Auxiliary\\Build\\vcvars64.bat)
           conan profile detect
           echo "[options]" >> $env:USERPROFILE\.conan2\profiles\default
           echo "
@@ -114,7 +128,7 @@ jobs:
           echo "**************    Test and coverage     ****************"
           just test
           # TODO: add coverage to justfile
-          cd ./out/build/${{matrix.env.PRESET}}
+          cd ./out/build/conf-${{matrix.env.PRESET}}
           OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest
           echo "**************      Run cmake pack      ****************"
           just pack
