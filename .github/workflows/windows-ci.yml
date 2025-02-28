@@ -85,11 +85,11 @@ jobs:
         run: |
           choco install -y just
           just setup
-          Import-Module "$env:ChocolateyInstall/helpers/chocolateyInstaller.psm1"
-          refreshenv
 
       - name: Conifigure tools
         run: |
+          Import-Module "$env:ChocolateyInstall/helpers/chocolateyInstaller.psm1"
+          refreshenv
           conan profile detect
           echo "[options]" >> $env:USERPROFILE\.conan2\profiles\default
           echo "
