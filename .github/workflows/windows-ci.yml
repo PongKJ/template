@@ -82,9 +82,7 @@ jobs:
 
       - name: Install tools
         run: |
-          choco install ccache cppcheck opencppcoverage ninja
-          pipx install rust-just conan
-
+          choco install ccache cppcheck opencppcoverage ninja conan just
 
       - name: Conifigure tools
         run: |
